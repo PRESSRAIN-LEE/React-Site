@@ -1,6 +1,6 @@
 - React와 React bootstrap으로 개발합니다.
 
-# React Install
+# React(client) Install (폴더명: client)
 - `1.` node js가 설치 되어 있어야 함
 - `1-1.` https://nodejs.org/ko 다운로드 및 설치
 - `2.` 대상 폴더로 이동(※현재 선택된 폴더의 하위에 프로젝트 생성- 아래에서 만드는 폴더가 생성 됨)
@@ -19,6 +19,18 @@
 - `10-1.` npm install axios
 - `11.` mysql설치
 - `11-1.` npm install mysql
+
+# node.js(server)설치 (root에서)
+`root에서 진행`
+- `1.` client에 있는 .gitignore파일을 root에 복사
+- `2.` package.json파일 작성 (npm init -y 를 사용해서 작성해도 됨)
+- `3.` npm install (-g) nodemon => node_modules폴더 생성 됨
+- `4.` server.js파일 작성
+
+
+- `5.` npm install express body-parser
+- `6.` npm install -D concurrently
+
 
 # bootstrap
 - bootstrap (https://www.bootstrapcdn.com/)

@@ -26,13 +26,16 @@
 - `2.` package.json파일 작성 (npm init -y 를 사용해서 작성해도 됨)
 - `3.` npm install (-g) nodemon => node_modules폴더 생성 됨
 - `4.` server.js파일 작성
-
-
 - `5.` npm install express body-parser
 - `6.` npm install -D concurrently
+- `7.` /.gitignore 파일 수정 - 디비 연결 파일 추가
+- `7-1.` database.json 추가
+
 
 
 # bootstrap
+npm i react-bootstrap bootstrap
+
 - bootstrap (https://www.bootstrapcdn.com/)
 
 `Navbar`
@@ -83,13 +86,22 @@ https://www.youtube.com/watch?v=wYpCWwD1oz0
 - 회원가입
 - 로그인(일반 사용자)
 - 정보수정
-- 게시판(계층형)
+- 게시판 목록(계층형)
+- 게시판 검색
+- 게시판 Pagenation
+- 게시판 글쓰기 (첨부파일)
+- 게시판 수정
+- 게시판 삭제(상세페이지, 목록)
+- 첨부파일 다운로드
 
 `2. Back`
 - 로그인(관리자)
 - 정보수정
 - 회원관리
 - 게시판 관리
+
+라우터 분리: https://codegear.tistory.com/52
+
 
 
 # Getting Started with Create React App

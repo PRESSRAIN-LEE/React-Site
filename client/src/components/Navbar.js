@@ -15,10 +15,10 @@ const Navbar = () => {
 							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/movie">Movie</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/user">User</NavLink>
+							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/user">회원</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink to="/board" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>Board</NavLink>
+							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/board">게시판</NavLink>
 						</li>
 					</ul>
 				</div>

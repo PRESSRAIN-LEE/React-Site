@@ -5,32 +5,36 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import Home from './components/Home';
-import Movie from './components/Movie';
-import MemberList from './pages/MemberList';
-import Board from './components/Board';
+import axios from 'axios';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+import Home from './pages/Home';
+import MovieList from './pages/movie/MovieList';
+import MemberList from './pages/member/MemberList';
+import BoardList from './pages/board/BoardList';
+import BoardWrite from './pages/board/BoardWrite';
+import List from './pages/List';
+
 
 function App() {
+//class App extends Component {
+
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <div className="container">
+        <Header />
         <Routes>
-          <Route path="/" element={<Home/>}>
-          </Route>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/movie" element={<MovieList/>}/>
+          <Route path="/user" element={<MemberList/>}/>
+          <Route path="/board" element={<BoardList/>}/>
+          <Route path="/board/create" element={<BoardWrite/>}/>
         </Routes>
-        <Routes>
-          <Route path="/movie" element={<Movie/>}>
-          </Route>
-        </Routes>
-        <Routes>
-          <Route path="/user" element={<MemberList/>}>
-          </Route>
-        </Routes>
-        <Routes>
-          <Route path="/board" element={<Board/>}>
-          </Route>
-        </Routes>
+        <Footer />
+        </div>
       </div>
     </Router>
   );

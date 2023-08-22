@@ -1,9 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-export default class Member extends Component {
-  render() {
+function Member(props){
 	return (
-	  <div>Member</div>
+		<tr>
+			<td>{props.id}</td>
+			<td>{props.name}</td>
+			<td>{props.job}</td>
+			<td>{props.birthday}</td>
+			<td>{props.gender}</td>
+			<td>&nbsp;</td>
+		</tr>
 	)
-  }
 }
+
+export default Member;

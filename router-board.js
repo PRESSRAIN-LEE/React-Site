@@ -62,9 +62,14 @@ router.post('/save', (req, res) => {
 	//console.log(req);
 	const sql = `
 			INSERT INTO TBL_BOARD (ref, ref_level, ref_step, member_seq, member_name, board_title, board_content)
-			VALUES (0, 0, 0, 0, 'TE', ?)
+			VALUES (?)
 	 `
 	 const values = [
+		req.body.ref,
+		req.body.ref_level,
+		req.body.ref_step,
+		req.body.member_seq,
+		req.body.member_name,
 		req.body.board_title,
 		req.body.board_contents
 	 ]
@@ -74,24 +79,52 @@ router.post('/save', (req, res) => {
 	 })
 });
 
-router.get('/:id', (req, res) => {
-	//res.send('/api/boards');
-	const sql = `
-					SELECT * 
-					FROM TBL_BOARD 
-					WHERE 1 = 1 
-					`;
-	connection.query(sql,(err, rows, fields) => {	//rows에 디비내용을 저장
-			if(err){
-				console.log("DB 실패");
-				// console.log(err);
-			}else{
-				//console.log(rows);
-				res.send(rows);
-			};
-		}
-	);
-}
-);
+//조횟수 증가
+ router.get('/hit/:idx', (req, res) => {
+ 	
+	
+ 	const id = req.params.idx;
+// 	const up_sql = `UPDATE TBL_BOARD SET 
+// 				board_read = board_read + 1 
+// 				WHERE id = ? `;
+// 	console.log(1, up_sql);
+res.send(`/board/${id}`);
+// 	connection.query(up_sql, [id], (err, result) => {
+// 		if(err) return res.json({Message: "Error!!"});
+// 		return res.json(result);
+// 		//res.send(`/${id}`);
+// 	});
+ });
+
+//읽기
+router.get('/:idx', (req, res) => {
+	 const id = req.params.idx;
+	// // const up_sql = `UPDATE TBL_BOARD SET 
+	// // 			board_read = board_read + 1 
+	// // 			WHERE id = ? `;
+	
+	// // connection.query(up_sql, [id], (err, result) => {
+	// // 	if(err) return res.json({Message: "Error!!"});
+	// // 	return res.json(result);
+	// // });
+	//res.send(`/hit/${id}`);
+	 const sql = `
+			SELECT * 
+			FROM TBL_BOARD 
+			WHERE 1 = 1 
+			AND id = ?
+			`;
+	 connection.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
+	 		if(err){
+	 			console.log("DB 실패");
+	 			// console.log(err);
+	 		}else{
+	 			console.log(rows);
+	 			res.send(rows);
+	 		};
+	 	}
+	 );
+	
+});
 
 module.exports = router;

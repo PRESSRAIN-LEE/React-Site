@@ -54,9 +54,13 @@ app.get('/api/hello', (req, res) => {
 // 	});*/
 // });
 
-//app.use('/api/users', require('./router-user'));
+//회원
+app.use('/api/users', require('./router-user'));
+
+//게시판
 app.use('/api/boards', require('./router-board'));
-app.use('/api/boards/save', require('./router-board'));
+//app.use('/api/boards/save', require('./router-board'));
+//app.use('/api/boards/id', require('./router-board'));
+//app.use('/api/boards/hit/:id', require('./router-board'));
 
 app.listen(port, () => console.log(`Listen on port ${port}`));
-

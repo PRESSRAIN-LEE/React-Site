@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Board(props) {
 	return (
 		<tr>
 			<td>{props.id}</td>
 			<td>
-				{props.ref_step > 0 ? props.ref_step : "0"}
-				{props.title}</td>
+				<Link to={`/board/${props.id}`}>
+					{props.title}
+				</Link>
+			</td>
 			<td>{props.name}</td>
 			<td>{props.regDate}</td>
 			<td>{props.read}</td>

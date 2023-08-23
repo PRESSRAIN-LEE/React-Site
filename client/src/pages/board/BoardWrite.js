@@ -1,13 +1,20 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
+
+
 const WriteForm = () => {
+	const navigate = useNavigate();
+	
 	const [values, setValues] = useState({
 		board_title: '',
 		board_contents: '',
 		ref: '0',
 		ref_step: '0',
 		ref_level: '0',
+		member_seq: '0',
+		member_name: '',
 	});
 
 	const changeValue = (e) => {
@@ -20,9 +27,11 @@ const WriteForm = () => {
 	const saveBoard = (e) => {
 		e.preventDefault();		//submit이 action을 타지 않고 자기 할일을 그만 한다.
 		axios.post("/api/boards/save", values)
-		.then(res => console.log(res))
+		.then(res => {
+			console.log(res);
+			navigate('/board');
+		})
 		.catch(err => console.log(err));
-		
 
 		// fetch("https://localhost:5000/api/boards", {
 		// 	method: "POST",
@@ -37,6 +46,10 @@ const WriteForm = () => {
 		// });
 	}
 
+	const goList = () => {
+		navigate('/board');
+	}
+
 	return (
 		<div className="d-flex justify-content-center align-items-center">
 			<div className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
@@ -45,8 +58,17 @@ const WriteForm = () => {
 					<input type='TEXT' name='ref' onChange={ changeValue } value='0'/>
 					<input type='TEXT' name='ref_step' onChange={ changeValue }/>
 					<input type='TEXT' name='ref_level' onChange={ changeValue }/>
+					<input type='TEXT' name='member_seq' onChange={ changeValue }/>
+
 					<table className="table table-bordered">
 						<tbody>
+							<tr>
+								<td className="col-3 table-active">이름</td>
+								<td className='col-9'>
+									<input className="form-control col-12 w-100" type="text" name='member_name' required placeholder='이름' onChange={ changeValue }/>
+									<div className="invalid-feedback">이름을 입력하세요.</div>
+								</td>
+							</tr>
 							<tr>
 								<td className="col-3 table-active">제목</td>
 								<td className='col-9'>
@@ -74,7 +96,7 @@ const WriteForm = () => {
 
 					<div className="col text-right">
 						<button className="btn btn-primary mb-2" type="submit">저장</button>
-						<button className="btn btn-outline-primary mb-2" type="button">목록</button>
+						<button className="btn btn-outline-primary mb-2" type="button" onClick={goList}>목록</button>
 					</div>
 				</form>
 			</div>

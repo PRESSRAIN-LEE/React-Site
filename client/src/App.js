@@ -13,9 +13,12 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import MovieList from './pages/movie/MovieList';
 import MemberList from './pages/member/MemberList';
+
 import BoardList from './pages/board/BoardList';
 import BoardWrite from './pages/board/BoardWrite';
-import List from './pages/List';
+import BoardView from './pages/board/BoardView';
+import BoardHit from './pages/board/BoardHit';
+//import List from './pages/List';
 
 
 function App() {
@@ -30,8 +33,11 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/movie" element={<MovieList/>}/>
           <Route path="/user" element={<MemberList/>}/>
+          
           <Route path="/board" element={<BoardList/>}/>
           <Route path="/board/create" element={<BoardWrite/>}/>
+          <Route path="/board/hit/:idx" element={<BoardHit/>}/>
+          <Route path="/board/:idx" element={<BoardView/>}/>
         </Routes>
         <Footer />
         </div>

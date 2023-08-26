@@ -30,14 +30,17 @@ connection.connect();		//실제 연결
 router.get('/', (req, res) => {
 	//res.send('/api/boards');
 	//res.send({message: 'Hello Members!'});
+	console.log(req.body);
 
 	const sql = `
 			SELECT * 
-			FROM TBL_BOARD WHERE 1 = 1
+			FROM TBL_BOARD 
+			WHERE 1 = 1
+			AND board_state = 'Y' 
 			ORDER BY ref DESC, ref_level ASC, id DESC
-			LIMIT 0, 10
+			LIMIT 0, 5;
 		`;
-	connection.query(sql,(err, rows, fields) => {	//rows에 디비내용을 저장
+	connection.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
 			if(err){
 				console.log("DB 실패");
 				// console.log(err);
@@ -80,34 +83,32 @@ router.post('/save', (req, res) => {
 });
 
 //조횟수 증가
- router.get('/hit/:idx', (req, res) => {
- 	
-	
+ router.put('/hit/:idx', (req, res) => {
  	const id = req.params.idx;
-// 	const up_sql = `UPDATE TBL_BOARD SET 
-// 				board_read = board_read + 1 
-// 				WHERE id = ? `;
-// 	console.log(1, up_sql);
-res.send(`/board/${id}`);
-// 	connection.query(up_sql, [id], (err, result) => {
-// 		if(err) return res.json({Message: "Error!!"});
-// 		return res.json(result);
-// 		//res.send(`/${id}`);
-// 	});
+	const up_sql = `UPDATE TBL_BOARD SET 
+				board_read = board_read + 1 
+				WHERE id = ? `;
+	//console.log(1, up_sql);
+	connection.query(up_sql, [id], (err, result) => {
+		//if(err) return res.json({Message: "Error!!"});
+		//return res.json(result);
+		//res.send(`/${id}`);
+	});
  });
 
 //읽기
-router.get('/:idx', (req, res) => {
-	 const id = req.params.idx;
-	// // const up_sql = `UPDATE TBL_BOARD SET 
-	// // 			board_read = board_read + 1 
-	// // 			WHERE id = ? `;
-	
-	// // connection.query(up_sql, [id], (err, result) => {
-	// // 	if(err) return res.json({Message: "Error!!"});
-	// // 	return res.json(result);
-	// // });
+router.get('/detail/:idx', (req, res) => {
+	const id = req.params.idx;
+
+	/*const up_sql = `UPDATE TBL_BOARD SET 
+				board_read = board_read + 1 
+				WHERE id = ? `;
+	connection.query(up_sql, [id], (err, result) => {
+		//if(err) return res.json({Message: "Error!!"});
+		//return res.json(result);
+	});*/
 	//res.send(`/hit/${id}`);
+
 	 const sql = `
 			SELECT * 
 			FROM TBL_BOARD 
@@ -124,7 +125,66 @@ router.get('/:idx', (req, res) => {
 	 		};
 	 	}
 	 );
-	
+});
+
+//수정페이지 이동
+router.get('/edit/:idx', (req, res) => {
+	const id = req.params.idx;
+	const sql = `
+			SELECT * 
+			FROM TBL_BOARD 
+			WHERE 1 = 1 
+			AND id = ?
+			`;
+	connection.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
+	 		if(err){
+	 			console.log("DB 실패");
+	 			// console.log(err);
+	 		}else{
+	 			console.log(rows);
+	 			res.send(rows);
+	 		};
+	 	}
+	);
+});
+
+//수정-저장
+router.put('/update/:idx', (req, res) => {
+	console.log("저장");	//VS터미널 출력창에 출력
+
+	const sql = `UPDATE TBL_BOARD SET 
+					member_name = ?
+					, board_title = ?
+					, board_content = ?
+				WHERE id = ? `;
+	const id = req.params.idx;
+	console.log(req.params.member_name);
+	connection.query(sql, [req.bady.member_name, 
+							req.bady.board_title,
+							req.bady.board_contents,
+							id], (err, result) => {
+		if(err) return res.json({Message: "Error!!"});
+		return res.json(result);
+		//res.send(`/${id}`);
+	});
+
+});
+
+
+//삭제
+//참고 동영상: https://www.youtube.com/watch?v=y5NvOade3sk
+router.put('/delete/:idx', (req, res) => {
+	const id = req.params.idx;
+	//console.log(id);
+
+	const up_sql = `UPDATE TBL_BOARD SET 
+				board_state = 'N' 
+				WHERE id = ? `;
+		connection.query(up_sql, [id], (err, result) => {
+		if(err) return res.json({Message: "ERROR"});
+		return res.json(result);
+		//console.log("result : " + (err));
+	});
 });
 
 module.exports = router;

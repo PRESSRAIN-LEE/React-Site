@@ -31,10 +31,12 @@
 - `7.` /.gitignore 파일 수정 - 디비 연결 파일 추가
 - `7-1.` database.json 추가
 
-
+# router 분리
+라우터 분리: https://codegear.tistory.com/52
 
 # bootstrap
-npm i react-bootstrap bootstrap
+`npm i react-bootstrap bootstrap`
+`npm install react-bootstrap bootstrap`
 
 - bootstrap (https://www.bootstrapcdn.com/)
 
@@ -42,36 +44,10 @@ npm i react-bootstrap bootstrap
 - https://getbootstrap.com/docs/5.3/components/navbar/#how-it-works
 
 
-# 동영상
-`동영상 - 참고`
-https://www.youtube.com/watch?v=y4Pd3M1ZIXk&list=PLB7CpjPWqHOuf62H44TMkMIsqfkIzcEcX&index=1
-
-
-`동영상`
-https://www.youtube.com/@user-tv9kt8gu6n/search?query=%EB%A6%AC%EC%95%A1%ED%8A%B8%20%EA%B2%8C%EC%8B%9C%ED%8C%90
-
-`git`
-
-
-material ui 설치
-npm install @mui/material @emotion/react @emotion/styled @mui/x-data-grid @mui/icons-material react-router-dom@6 react-pro-sidebar formik yup @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list @nivo/core @nivo/pie @nivo/line @nivo/bar @nivo/geo
-
-
-참고 git: 
-https://github.com/ed-roh/react-admin-dashboard
-
-동영상: 
-https://www.youtube.com/watch?v=wYpCWwD1oz0
-
-
-
-# Bootstrap Gettinf stated
-`npm install react-bootstrap bootstrap`
-
-
 # 개발 완료
-- 목록 (계속 updagrade 예정)
-- 조회 수 증가 (글 상세페이지에서 새로고침을 해도 증가되지 않고 오로지 글 목록에서 클릭하고 왔을 때만 증가함)
+- 1. 목록 (계속 updagrade 예정)
+- 2. 글 상세 보기
+- 3. 조회 수 증가 (글 상세페이지에서 새로고침을 해도 증가되지 않고 오로지 글 목록에서 클릭하고 왔을 때만 증가함)
 
 # 개발 진행 & 개발 예정
 `1. Front`
@@ -93,8 +69,6 @@ https://www.youtube.com/watch?v=wYpCWwD1oz0
 - 회원관리
 - 게시판 관리
 
-라우터 분리: https://codegear.tistory.com/52
-
 
 
 # Getting Started with Create React App
@@ -112,3 +86,27 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+
+# 동영상
+`동영상 - 참고`
+https://www.youtube.com/watch?v=y4Pd3M1ZIXk&list=PLB7CpjPWqHOuf62H44TMkMIsqfkIzcEcX&index=1
+
+
+`동영상`
+https://www.youtube.com/@user-tv9kt8gu6n/search?query=%EB%A6%AC%EC%95%A1%ED%8A%B8%20%EA%B2%8C%EC%8B%9C%ED%8C%90
+
+`git`
+
+
+
+참고 git: 
+https://github.com/ed-roh/react-admin-dashboard
+
+동영상: 
+https://www.youtube.com/watch?v=wYpCWwD1oz0
+
+
+
+`material ui 설치`
+npm install @mui/material @emotion/react @emotion/styled @mui/x-data-grid @mui/icons-material react-router-dom@6 react-pro-sidebar formik yup @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list @nivo/core @nivo/pie @nivo/line @nivo/bar @nivo/geo

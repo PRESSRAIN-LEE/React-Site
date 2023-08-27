@@ -30,10 +30,10 @@ connection.connect();		//실제 연결
 router.get('/', (req, res) => {
 	//res.send('/api/boards');
 	//res.send({message: 'Hello Members!'});
-	console.log(req.body);
+	//console.log(req.body);
 
 	const sql = `
-			SELECT * 
+			SELECT id, member_name, board_title, board_read, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
 			FROM TBL_BOARD 
 			WHERE 1 = 1
 			AND board_state = 'Y' 
@@ -99,16 +99,6 @@ router.post('/save', (req, res) => {
 //읽기
 router.get('/detail/:idx', (req, res) => {
 	const id = req.params.idx;
-
-	/*const up_sql = `UPDATE TBL_BOARD SET 
-				board_read = board_read + 1 
-				WHERE id = ? `;
-	connection.query(up_sql, [id], (err, result) => {
-		//if(err) return res.json({Message: "Error!!"});
-		//return res.json(result);
-	});*/
-	//res.send(`/hit/${id}`);
-
 	 const sql = `
 			SELECT * 
 			FROM TBL_BOARD 
@@ -120,7 +110,7 @@ router.get('/detail/:idx', (req, res) => {
 	 			console.log("DB 실패");
 	 			// console.log(err);
 	 		}else{
-	 			console.log(rows);
+	 			//console.log(rows);
 	 			res.send(rows);
 	 		};
 	 	}
@@ -141,7 +131,7 @@ router.get('/edit/:idx', (req, res) => {
 	 			console.log("DB 실패");
 	 			// console.log(err);
 	 		}else{
-	 			console.log(rows);
+	 			//console.log(rows);
 	 			res.send(rows);
 	 		};
 	 	}
@@ -150,21 +140,23 @@ router.get('/edit/:idx', (req, res) => {
 
 //수정-저장
 router.put('/update/:idx', (req, res) => {
-	console.log("저장");	//VS터미널 출력창에 출력
+	//console.log("저장");	//VS터미널 출력창에 출력
+
+	const id = req.params.idx;
+	const { member_name, board_title, board_content } = req.body;
 
 	const sql = `UPDATE TBL_BOARD SET 
 					member_name = ?
 					, board_title = ?
 					, board_content = ?
 				WHERE id = ? `;
-	const id = req.params.idx;
-	console.log(req.params.member_name);
-	connection.query(sql, [req.bady.member_name, 
-							req.bady.board_title,
-							req.bady.board_contents,
+	connection.query(sql, [member_name, 
+							board_title,
+							board_content,
 							id], (err, result) => {
 		if(err) return res.json({Message: "Error!!"});
 		return res.json(result);
+		//console.log("err", err);
 		//res.send(`/${id}`);
 	});
 

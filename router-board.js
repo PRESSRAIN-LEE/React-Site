@@ -11,6 +11,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+const multer = require('multer');		//multer객체 사용(라이브러리 불러옴)
+const upload = multer({dest: './upload'});	//루트에 upload폴더
+
 
 //DB연결 설정
 const data = fs.readFileSync('./database.json');
@@ -74,7 +77,7 @@ router.post('/save', (req, res) => {
 		req.body.member_seq,
 		req.body.member_name,
 		req.body.board_title,
-		req.body.board_contents
+		req.body.board_content
 	 ]
 	 connection.query(sql, [values], (err, result) => {
 		if(err) return res.json(err);

@@ -20,7 +20,7 @@
 - `11.` mysql설치
 - `11-1.` npm install mysql
 
-# node.js(server)설치 (root에서)
+## node.js(server)설치 (root에서)
 `root에서 진행`
 - `1.` client에 있는 .gitignore파일을 root에 복사
 - `2.` package.json파일 작성 (npm init -y 를 사용해서 작성해도 됨)
@@ -31,10 +31,13 @@
 - `7.` /.gitignore 파일 수정 - 디비 연결 파일 추가
 - `7-1.` database.json 추가
 
-# router 분리
+### Upload 설치 (multer)
+- npm install multer
+
+#### router 분리
 라우터 분리: https://codegear.tistory.com/52
 
-# bootstrap
+##### bootstrap
 `npm i react-bootstrap bootstrap`
 `npm install react-bootstrap bootstrap`
 
@@ -44,43 +47,38 @@
 - https://getbootstrap.com/docs/5.3/components/navbar/#how-it-works
 
 
-# 개발 완료
-- 1 목록 (계속 updagrade 예정)
-- 2 글 상세 보기
-- 3 조회 수 증가 (글 상세페이지에서 새로고침을 해도 증가되지 않고 오로지 글 목록에서 클릭하고 왔을 때만 증가함)
+###### 개발 완료
+`1. 사용자단`
+- `1.` 목록 (계속 updagrade 예정)
+- `2.` 글 상세 보기
+- `3.` 조회 수 증가 (글 상세페이지에서 새로고침을 해도 증가되지 않고 오로지 글 목록에서 클릭하고 왔을 때만 증가함)
+- `4.` 게시판 글 수정
+
+`2. 관리자단`
+
 
 # 개발 진행 & 개발 예정
-`1. Front`
+`1. 사용자단`
 - 회원가입
 - 로그인(일반 사용자)
 - 정보수정
-
 - 게시판 목록(계층형)
 - 게시판 검색
 - 게시판 Pagenation
-- 게시판 글쓰기 (첨부파일)
-- 게시판 수정
+- 게시판 글쓰기 (첨부파일) - multer
 - 게시판 삭제(상세페이지, 목록)
 - 첨부파일 다운로드
 
-`2. Back`
+`2. 관리자단`
 - 로그인(관리자)
 - 정보수정
 - 회원관리
 - 게시판 관리
 
 
-
-
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
 
 ### `npm start`
 

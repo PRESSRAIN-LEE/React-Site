@@ -20,6 +20,12 @@ const Navbar = () => {
 						<li className="nav-item">
 							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/board">게시판</NavLink>
 						</li>
+						<li className="nav-item">
+							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/join">회원가입</NavLink>
+						</li>
+						<li className="nav-item">
+							<NavLink className={({ isActive }) => "nav-link" + (isActive ? " active" : "")} to="/login">로그인</NavLink>
+						</li>
 					</ul>
 				</div>
 			</div>

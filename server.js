@@ -57,10 +57,16 @@ app.get('/api/hello', (req, res) => {
 //회원
 app.use('/api/users', require('./router-user'));
 
+//회원 >로그인, 회원가입
+app.use('/api/members', require('./router-member'));
+
 //게시판
 app.use('/api/boards', require('./router-board'));
 //app.use('/api/boards/save', require('./router-board'));
 //app.use('/api/boards/id', require('./router-board'));
 //app.use('/api/boards/hit/:id', require('./router-board'));
+
+//관리자
+app.use('/api/manager', require('./router-manager'));
 
 app.listen(port, () => console.log(`Listen on port ${port}`));

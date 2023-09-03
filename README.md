@@ -1,6 +1,7 @@
 - React와 React bootstrap으로 개발합니다.
 
-# React(client) Install (폴더명: client)
+# React(client) Install
+`client폴더에서 진행`
 - `1.` node js가 설치 되어 있어야 함
 - `1-1.` https://nodejs.org/ko 다운로드 및 설치
 - `2.` 대상 폴더로 이동(※현재 선택된 폴더의 하위에 프로젝트 생성- 아래에서 만드는 폴더가 생성 됨)
@@ -19,9 +20,12 @@
 - `10-1.` npm install axios
 - `11.` mysql설치
 - `11-1.` npm install mysql
+- `12.` query-string 설치
+- `12-1.` npm install query-string
 
 ## node.js(server)설치 (root에서)
 `root에서 진행`
+- `0.` npm install express body-parser nodemon mysql cors (설치할 라이브러리들)....
 - `1.` client에 있는 .gitignore파일을 root에 복사
 - `2.` package.json파일 작성 (npm init -y 를 사용해서 작성해도 됨)
 - `3.` npm install (-g) nodemon => node_modules폴더 생성 됨
@@ -30,6 +34,8 @@
 - `6.` npm install -D concurrently
 - `7.` /.gitignore 파일 수정 - 디비 연결 파일 추가
 - `7-1.` database.json 추가
+- `8.` npm install express-session cookie-parser 추가(로그인 관련)
+- `9.` npm install dot env 추가(로그인 세션)
 
 ### Upload 설치 (multer)
 - npm install multer
@@ -49,31 +55,41 @@
 
 ###### 개발 완료
 `1. 사용자단`
-- `1.` 목록 (계속 updagrade 예정)
+- `1.` 목록(계층형-답변형) (계속 updagrade 예정)
 - `2.` 글 상세 보기
 - `3.` 조회 수 증가 (글 상세페이지에서 새로고침을 해도 증가되지 않고 오로지 글 목록에서 클릭하고 왔을 때만 증가함)
 - `4.` 게시판 글 수정
+- `5.` 게시판 답변 기능
+- `6.` 회원가입(아이디 중복 체크 - 예정)
+- `7.` 로그인, 로그아웃
+
 
 `2. 관리자단`
 
 
 # 개발 진행 & 개발 예정
 `1. 사용자단`
-- 회원가입
-- 로그인(일반 사용자)
+- 회원가입(아이디 중복 체크)
 - 정보수정
-- 게시판 목록(계층형)
+
 - 게시판 검색
 - 게시판 Pagenation
 - 게시판 글쓰기 (첨부파일) - multer
-- 게시판 삭제(상세페이지, 목록)
+- 게시판 삭제(상세페이지, 목록) - 첨부파일이 있으면 같이 삭제 처리
 - 첨부파일 다운로드
+- comment 기능 (참고: https://binaryjourney.tistory.com/22)
+- 에디터 추가
+- 아이디 찾기 / 비번 초기화
+- 게시글에 좋아요 (카운트)
+- 출석(캘린더)
+- 포인트 기능
 
 `2. 관리자단`
 - 로그인(관리자)
-- 정보수정
-- 회원관리
-- 게시판 관리
+- 로그인 정보수정
+- 회원 관리(CRUD)
+- 게시판 관리(CRUD,답변, 좋아요)
+- 포인트 관리(포인트 가감)
 
 
 # Getting Started with Create React App

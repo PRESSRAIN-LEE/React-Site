@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import LoginValidation from './LoginValidation';
+
 import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form"; 
 import Button from "react-bootstrap/Button";
@@ -8,10 +10,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
+
 const LoginModal = () => {
 	const navigate = useNavigate();
-	const [show, setShow] = useState(false);
+	const [errors, setErrors] = useState({});
 
+	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
@@ -38,18 +42,32 @@ const LoginModal = () => {
 
     const goLogin = (e) => {
         e.preventDefault();
+        setErrors(LoginValidation(values));
+
         //console.log("userId", values.userId);
-        axios.post("/api/members/login", values)
-        .then(res => {
-            console.log(res);
-            //console.log("성공")
-            if(res.data.Login){
-                navigate("/");
-            }else{
-                alert("No Record");
-            }
-        })
-        .catch(err => console.log(err));
+        if(errors.userId !== "" && errors.userPwd !== ""){
+            axios.post("/api/members/login", values)
+            .then(res => {
+                //console.log("성공", res.data.Login);
+                //console.log(res);
+                //console.log('res.data.userId :: ', res.data.M_SEQ);
+                //console.log('res.data.msg :: ', res.data.Login);
+                
+                if(res.data.Login){
+                    //console.log("성공1");
+                    //sessionStorage.setItem('USER_SEQ', JSON.stringify(res.data, ["M_SEQ", "M_NAME"]));
+                    //sessionStorage.setItem('M_SEQ', JSON.stringify(res.data.M_SEQ));
+                    sessionStorage.setItem('M_SEQ', res.data.M_SEQ);
+                    sessionStorage.setItem('M_NAME', res.data.M_NAME);
+                    //navigate("/");
+                    
+                    window.location.reload();
+                }else{
+                    alert("No Record");
+                }
+            })
+            .catch(err => console.log(err));
+        }
     }
 
 	return (
@@ -64,15 +82,17 @@ const LoginModal = () => {
 
 				<Modal.Body>
 					<Form onSubmit={ goLogin }>
-                        <Form.Group as={Row} className="mb-3" controlId="userId">
+                        <Form.Group as={ Row } className="mb-3" controlId="userId">
                             <Col sm>
                                 <Form.Control type="text" name="userId" placeholder="UserID" onChange={ changeValue } />
+                                { errors.userId && <span className="text-danger">{ errors.userId }</span> }
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="userPwd">
+                        <Form.Group as={ Row } className="mb-3" controlId="userPwd">
                             <Col sm>
                                 <Form.Control type="password" name="userPwd" placeholder="Password" onChange={ changeValue } />
+                                { errors.userPwd && <span className="text-danger">{ errors.userPwd }</span> }
                             </Col>
                         </Form.Group>
                         <br/>

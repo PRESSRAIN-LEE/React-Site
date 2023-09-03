@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import LoginModal from './LoginModal';
+
 import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form"; 
 import Button from "react-bootstrap/Button";
@@ -17,8 +19,8 @@ const JoinModal = () => {
 
 
 	const [userId, setUserId] = useState("");
-	const [userPw, setUserPw] = useState("");
-	const [userPwChk, setUserPwChk] = useState("");
+	const [userPwd, setUserPwd] = useState("");
+	const [userPwdChk, setUserPwdChk] = useState("");
 	const [userName, setUserName] = useState("");
 	const [userMail, setUserMail] = useState("");
 
@@ -40,15 +42,15 @@ const JoinModal = () => {
 		if ((!e.target.value || (passwordRegex.test(e.target.value)))) setPasswordError(false);
 		else setPasswordError(true);
 
-		if (!userPwChk || e.target.value === userPwChk) setConfirmPasswordError(false);
+		if (!userPwdChk || e.target.value === userPwdChk) setConfirmPasswordError(false);
 		else setConfirmPasswordError(true);
-		setUserPw(e.target.value);
+		setUserPwd(e.target.value);
 	};
 
 	const onChangeConfirmPassword = (e) => {
-		if (userPw === e.target.value) setConfirmPasswordError(false);
+		if (userPwd === e.target.value) setConfirmPasswordError(false);
 		else setConfirmPasswordError(true);
-		setUserPwChk(e.target.value);
+		setUserPwdChk(e.target.value);
 	};
 
 	const onChangeUserName = (e) => {
@@ -65,12 +67,12 @@ const JoinModal = () => {
 
 	const validation = () => {
 		if(!userId) setUserIdError(true);
-		if(!userPw) setPasswordError(true);
-		if(!userPwChk) setConfirmPasswordError(true);
+		if(!userPwd) setPasswordError(true);
+		if(!userPwdChk) setConfirmPasswordError(true);
 		if(!userName) setUserNameError(true);
 		if(!userMail) setEmailError(true);
 
-		if(userId && userPw && userPwChk && userName && userMail) return false;
+		if(userId && userPwd && userPwdChk && userName && userMail) return false;
 		else return true;
 	}
 
@@ -100,13 +102,13 @@ const JoinModal = () => {
         let body = {
             userId,
             userName,
-            userPw,
+            userPwd,
             userMail,
         }
         */
         axios.post("/api/members/save", { userId,
             userName,
-            userPw,
+            userPwd,
             userMail })
 		.then(res => {
 			console.log(res.data);
@@ -116,6 +118,7 @@ const JoinModal = () => {
                 alert("미입력 발생");
 			}else{
 				//navigate('/');
+				handleClose();
 			}
 		})
 		.catch(err => console.log(err));
@@ -135,36 +138,36 @@ const JoinModal = () => {
 					<Form>
 						<Form.Group as={ Row } className="mb-3" controlId="formPlaintextId">
 							<Col sm>
-								<Form.Control maxLength={ 20 } placeholder="UserID" name="userID" value={ userId } onChange={onChangeUserId} />
-								{ userIdError && <div className="invalid-input">User ID must be at least 5 letter and contain letters or numbers.</div> }
+								<Form.Control maxLength={ 20 } placeholder="UserID" name="userID" value={ userId } onChange={ onChangeUserId } />
+								{ userIdError && <div className="invalid-input">아이디는 5자 이상의 문자 또는 숫자를 포함해야 합니다.</div> }
 							</Col>
 						</Form.Group>
 
 						<Form.Group as={ Row } className="mb-3">
 							<Col sm>
-								<Form.Control maxLength={ 20 } type="password" placeholder="Password" name="userPw" value={ userPw } onChange={onChangePassword} />
-								{ passwordError && <div className="invalid-input">Password must be at least 8 characters and contain at least one letter and one number. </div> }
+								<Form.Control maxLength={ 20 } type="password" placeholder="Password" name="userPwd" value={ userPwd } onChange={onChangePassword} />
+								{ passwordError && <div className="invalid-input">암호는 8자 이상의 문자와 숫자를 하나 이상 포함해야 합니다.</div> }
 							</Col>
 						</Form.Group>
 
 						<Form.Group as={ Row } className="mb-3">
 							<Col sm>
-								<Form.Control maxLength={ 20 } type="password" placeholder="Confirm Password" name="userPwChk" value={ userPwChk } onChange={ onChangeConfirmPassword } />
-								{ confirmPasswordError && <div className="invalid-input">Those passwords didn't match.</div> }
+								<Form.Control maxLength={ 20 } type="password" placeholder="Confirm Password" name="userPwdChk" value={ userPwdChk } onChange={ onChangeConfirmPassword } />
+								{ confirmPasswordError && <div className="invalid-input">비밀번호가 일치하지 않습니다.</div> }
 							</Col>
 						</Form.Group>
 
 						<Form.Group as={ Row } className="mb-3">
 							<Col sm>
 								<Form.Control maxLength={ 20 } placeholder="UserName" name="userName" value={ userName } onChange={ onChangeUserName } />
-								{userNameError && <div className="invalid-input">Required.</div>}
+								{userNameError && <div className="invalid-input">이름을 입력하십시오.</div>}
 							</Col>
 						</Form.Group>
 						
 						<Form.Group as={ Row } className="mb-3">
 							<Col sm>
 								<Form.Control maxLength={ 50 } type="input" placeholder="Email Address" name="userMail" value={ userMail } onChange={ onChangeEmail } />
-								{ emailError && <div className="invalid-input">Please enter valid email format.</div> }
+								{ emailError && <div className="invalid-input">올바른 이메일 형식으로 입력하십시오.</div> }
 							</Col>
 						</Form.Group>
 						<br />
@@ -173,7 +176,8 @@ const JoinModal = () => {
 						</div>
 					</Form>
 					<br />
-					<span className="text">Have an account? <Link to="/login" className="link">Sign In</Link></span>
+					{/* <span className="text">Have an account? <Link to="/login" className="link">Sign In</Link></span> */}
+					{/* <LoginModal/> */}
 				</Modal.Body>
 
 				{/* <Modal.Footer/> */}

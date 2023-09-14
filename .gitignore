@@ -4,6 +4,7 @@
 /upload
 
 # database
+/db/DbInfo.js
 /database.json
 /db.js
 
@@ -20,6 +21,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local

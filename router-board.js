@@ -2,6 +2,10 @@ const fs = require('fs');
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -14,26 +18,26 @@ app.use(bodyParser.urlencoded({extended: true}));
 const multer = require('multer');		//multer객체 사용(라이브러리 불러옴)
 const upload = multer({dest: './upload'});	//루트에 upload폴더
 
-
 //DB연결 설정
-const data = fs.readFileSync('./database.json');
-const conf = JSON.parse(data);
-const mysql = require('mysql');	//mysql 라이브러리
-
-const connection = mysql.createConnection({
-	"host": conf.host,
-	"user": conf.user,
-	"password": conf.password,
-	"port": conf.port,
-	"database": conf.database
-});
-connection.connect();		//실제 연결
+const mysqlConn = require('./db/DbConn')();
+const db = mysqlConn.init();
 
 //목록
 router.get('/', (req, res) => {
 	//res.send('/api/boards');
 	//res.send({message: 'Hello Members!'});
 	//console.log(req.body);
+
+	const { page, page_size } = req.query;
+	let start_limit = 0;
+	let end_limit = page_size;
+	if (page === "" || page === undefined || typeof page === "undefined" || page === null) {
+		//const start_limit = 0 * page_size; // 1페이지는 무조건 0부터 시작
+	}else{
+		start_limit = (page - 1) * page_size; // 1페이지는 무조건 0부터 시작
+	}
+	
+	console.log("list-(start_limit, page_size)", start_limit, ", ", end_limit);
 
 	const sql = `
 			SELECT id, member_name, board_title, board_read, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_at 
@@ -42,12 +46,13 @@ router.get('/', (req, res) => {
 			WHERE 1 = 1
 			AND board_state = 'Y' 
 			ORDER BY ref DESC, ref_level ASC, id DESC
-			LIMIT 0, 10;
+			LIMIT ${start_limit}, ${end_limit}
+			;
 		`;
-	connection.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
+	db.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
 			if(err){
-				console.log("DB 실패");
-				// console.log(err);
+				console.log("DB 에러");
+				//console.log(err);
 			}else{
 				//console.log(rows);
 				res.send(rows);
@@ -57,12 +62,35 @@ router.get('/', (req, res) => {
 
 	/*
 	const sql = "SELECT * FROM CUSTOMER WHERE isDeleted = 0";
-	connection.query(sql, (err, rows, fields) => {
+	db.query(sql, (err, rows, fields) => {
 		console.log("err", err);
 		console.log("rows", rows);
 		console.log("fields", fields);
 	});*/
 });
+
+//글 카운트
+router.get('/count', (req, res) => {
+	const sql = `
+		SELECT COUNT(*) TOTAL_COUNT
+		FROM TBL_BOARD 
+		WHERE 1 = 1 
+		AND board_state = 'Y' 
+		`;
+		db.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
+		if(err){
+			console.log("DB연결 실패");
+			// console.log(err);
+		}else{
+			//console.log("rows: ", rows);
+			res.send(rows);
+		};
+	});
+});
+
+//검색
+//router.get('/search', (req, res) => {
+//});
 
 //글쓰기 (계층형 게시판 구현)
 router.get('/create', (req, res) => {
@@ -71,7 +99,7 @@ router.get('/create', (req, res) => {
 		FROM TBL_BOARD 
 		WHERE 1 = 1 
 		`;
-	connection.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
+	db.query(sql, (err, rows, fields) => {	//rows에 디비내용을 저장
 		if(err){
 			console.log("DB 실패");
 			// console.log(err);
@@ -100,7 +128,7 @@ router.post('/save', (req, res) => {
 		req.body.board_title,
 		req.body.board_content
 	]
-	connection.query(sql, [values], (err, result) => {
+	db.query(sql, [values], (err, result) => {
 		//if(err) return res.json(err);
 		if(err) return res.json({Message: "ERROR"});
 		return res.json(result);
@@ -115,7 +143,7 @@ router.post('/save', (req, res) => {
 				board_read = board_read + 1 
 				WHERE id = ? `;
 	//console.log(1, up_sql);
-	connection.query(up_sql, [id], (err, result) => {
+	db.query(up_sql, [id], (err, result) => {
 		//if(err) return res.json({Message: "Error!!"});
 		//return res.json(result);
 		//res.send(`/${id}`);
@@ -131,7 +159,7 @@ router.get('/detail/:idx', (req, res) => {
 			WHERE 1 = 1 
 			AND id = ?
 			`;
-	 connection.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
+	 db.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
 	 		if(err){
 	 			console.log("DB 실패");
 	 			// console.log(err);
@@ -152,7 +180,7 @@ router.get('/edit/:idx', (req, res) => {
 			WHERE 1 = 1 
 			AND id = ?
 			`;
-	connection.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
+	db.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
 	 		if(err){
 	 			console.log("DB 실패");
 	 			// console.log(err);
@@ -176,7 +204,7 @@ router.put('/update/:idx', (req, res) => {
 					, board_title = ?
 					, board_content = ?
 				WHERE id = ? `;
-	connection.query(sql, [member_name, 
+	db.query(sql, [member_name, 
 							board_title,
 							board_content,
 							id], (err, result) => {
@@ -196,7 +224,7 @@ router.get('/reply/:idx', (req, res) => {
 			WHERE 1 = 1 
 			AND id = ?
 		`;
-	connection.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
+	db.query(sql, [id], (err, rows, fields) => {	//rows에 디비내용을 저장
 		if(err){
 			console.log("DB 실패");
 			// console.log(err);
@@ -220,7 +248,7 @@ router.post('/replySave/:idx', (req, res) => {
 
 	//답변용 업데이트
 	const sql_select = "SELECT * FROM TBL_BOARD WHERE 1 = 1 AND id = ? "
-	connection.query(sql_select, [id], (err, result) => {
+	db.query(sql_select, [id], (err, result) => {
 		refTemp = result[0].ref;
 		ref_stepTemp = result[0].ref_step;
 		ref_levelTemp = result[0].ref_level;
@@ -232,7 +260,7 @@ router.post('/replySave/:idx', (req, res) => {
 		//console.log('ref_level', ref_levelTemp);
 
 		const sql_reply = "UPDATE TBL_BOARD SET ref_step = ref_step + 1 WHERE ref_step > ? AND ref = ? "
-		connection.query(sql_reply, [ref_stepTemp, refTemp], (err, result) => {
+		db.query(sql_reply, [ref_stepTemp, refTemp], (err, result) => {
 			if(err) return res.json({Message: "ERROR"});
 			//return res.json(result);
 			//console.log("err:", err);
@@ -257,7 +285,7 @@ router.post('/replySave/:idx', (req, res) => {
 			board_title,
 			board_content
 		]
-		connection.query(sql, [values], (err, result) => {
+		db.query(sql, [values], (err, result) => {
 			//if(err) return res.json(err);
 			if(err) return res.json({Message: "ERROR"});
 			return res.json(result);
@@ -276,7 +304,7 @@ router.put('/delete/:idx', (req, res) => {
 	const up_sql = `UPDATE TBL_BOARD SET 
 				board_state = 'N' 
 				WHERE id = ? `;
-		connection.query(up_sql, [id], (err, result) => {
+		db.query(up_sql, [id], (err, result) => {
 		if(err) return res.json({Message: "ERROR"});
 		return res.json(result);
 		//console.log("result : " + (err));

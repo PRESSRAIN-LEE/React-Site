@@ -23,6 +23,7 @@
 - `12.` query-string 설치
 - `12-1.` npm install query-string
 
+
 ## node.js(server)설치 (root에서)
 `root에서 진행`
 - `0.` npm install express body-parser nodemon mysql cors (설치할 라이브러리들)....
@@ -36,6 +37,8 @@
 - `7-1.` database.json 추가
 - `8.` npm install express-session cookie-parser 추가(로그인 관련)
 - `9.` npm install dot env 추가(로그인 세션)
+- `10.` npm i react-paginate
+- `11.` npm install path fs mime iconv-lite		//첨부파일 관련
 
 ### Upload 설치 (multer)
 - npm install multer
@@ -62,6 +65,7 @@
 - `5.` 게시판 답변 기능
 - `6.` 회원가입(아이디 중복 체크 - 예정)
 - `7.` 로그인, 로그아웃
+- `8.` 게시판 Pagenation
 
 
 `2. 관리자단`
@@ -73,7 +77,6 @@
 - 정보수정
 
 - 게시판 검색
-- 게시판 Pagenation
 - 게시판 글쓰기 (첨부파일) - multer
 - 게시판 삭제(상세페이지, 목록) - 첨부파일이 있으면 같이 삭제 처리
 - 첨부파일 다운로드
@@ -84,7 +87,7 @@
 - 출석(캘린더)
 - 포인트 기능
 
-`2. 관리자단`
+`2. 관리자 기능`
 - 로그인(관리자)
 - 로그인 정보수정
 - 회원 관리(CRUD)

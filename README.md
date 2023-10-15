@@ -22,6 +22,8 @@
 - `11-1.` npm install mysql
 - `12.` query-string 설치
 - `12-1.` npm install query-string
+- `13.` npm install sweetalert2 (각종 메시지 창: https://sweetalert2.github.io/)
+- `14.` npm install jquery		//jquery
 
 
 ## node.js(server)설치 (root에서)
@@ -39,6 +41,11 @@
 - `9.` npm install dot env 추가(로그인 세션)
 - `10.` npm i react-paginate
 - `11.` npm install path fs mime iconv-lite		//첨부파일 관련
+- `12.` npm install jsonwebtoken	//JWT 관련(사용하기전에 신중히 고려할 점 - 어설프게 사용하면 안한것만도 못한 결과가 발생 할 가능성이 많음)
+- `13.` npm install bcrypt	//암호화 관련
+- `14.` npm install session-file-store	//세션저장
+
+
 
 ### Upload 설치 (multer)
 - npm install multer
